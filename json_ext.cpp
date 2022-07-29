@@ -122,6 +122,12 @@ namespace nlohmann {
          }
       }
 
+      // Mutates A in-place & hard
+      void append(json& arr, json& appendage) {
+         for(auto itr= appendage.begin(); itr != appendage.end(); ++itr)
+            arr.push_back(*itr);
+      }
+
    }
 }
 
@@ -290,6 +296,19 @@ void unitTest_iteratorCheck() {
    std::cout <<  std::endl << "iterator check test passed.";
 }
 
+void unitTest_append() {
+   json arr;
+   json appendage;
+   addPeople(arr);
+   addPeople(appendage, 5);
+
+   nlohmann::ext::append(arr, appendage);
+
+   assert(8 == arr.size());
+
+   std::cout << std::endl << arr.dump(3);
+}
+
 
 
 int main()
@@ -302,7 +321,7 @@ int main()
    unitTest_intersection();
    unitTest_filter();
    unitTest_iteratorCheck();
-
+   unitTest_append();
    return 1;
 }
 
